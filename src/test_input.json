@@ -1,14 +1,6 @@
-<div align="center">
-
-<h1>Lorax (Predibase) Endpoint | Serverless Worker</h1>
-
-
-## Example Input
-
-```json
 {
     "input": {
-        "inputs": prompt,
+        "inputs": "How are you?",
         "parameters": {
             "max_new_tokens": 1000,
             "temperature": 1.0,
@@ -18,4 +10,3 @@
         }
     }
 }
-```
