@@ -1,6 +1,4 @@
-<div align="center">
-
-<h1>Lorax (Predibase) Endpoint | Serverless Worker</h1>
+## Lorax (Predibase) Endpoint | Serverless Worker
 
 
 ## Example Input
@@ -8,7 +6,7 @@
 ```json
 {
     "input": {
-        "inputs": prompt,
+        "inputs": "prompt",
         "parameters": {
             "max_new_tokens": 1000,
             "temperature": 1.0,
