@@ -5,8 +5,8 @@ import time
 from typing import Generator
 import os
 
-os.environ['HF_HUB_OFFLINE'] = 1
-
+os.environ['HF_HUB_ENABLE_HF_TRANSFER'] = "true"
+os.environ['HF_HUB_DISABLE_IMPLICIT_TOKEN'] = "true"
 
 client_async = AsyncClient("http://127.0.0.1:8000")
 client = Client("http://127.0.0.1:8000")
@@ -20,6 +20,7 @@ while True:
         break
 
     except Exception as e:
+        print(str(e))
         print("The Lorax server is still cold booting...")
         time.sleep(5)
 
@@ -31,19 +32,13 @@ async def handler(job: dict):
     logger.info("Starting job...")
     job_input = job['input']
 
-    prompt = job_input.get('inputs')
-    parameters = job_input.get('parameters')
-
-    max_new_tokens = parameters.get('max_new_tokens')
-    temperature = parameters.get('temperature')
-    top_p = parameters.get('top_p')
-    do_sample = parameters.get('do_sample')
-    seed = parameters.get('seed')
+    prompt = job_input.get('inputs', {})
+    
+    # Sampling params and adapter_id
+    params = job_input.get('parameters', {})
 
 
-    resp = await client_async.generate(prompt, max_new_tokens=max_new_tokens, temperature=temperature, top_p=top_p,
-                           seed=seed,
-                           do_sample=do_sample)
+    resp = await client_async.generate(prompt, **params)
 
     return resp.generated_text
 
